@@ -57,7 +57,7 @@ def start_dropbox():
         return False
     os.environ["LD_PRELOAD"] = lib_path
 
-    db_path = os.path.expanduser(u"~/.dropbox-dist/dropboxd").encode(
+    db_path = os.path.expanduser(u"/opt/dropbox/dropboxd").encode(
         sys.getfilesystemencoding()
     )
     if os.access(db_path, os.X_OK):
@@ -68,9 +68,11 @@ def start_dropbox():
             preexec_fn=os.setsid,
             cwd=os.path.expanduser("~"),
             stderr=sys.stderr,
-            stdout=f,
+            stdout=sys.stdout,
             close_fds=True,
         )
+
+        a.communicate()
 
         # in seconds
         interval = 0.5
